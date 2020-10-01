@@ -86,3 +86,16 @@ button {
   padding: 5px 10px;
   background-color: lightskyblue;
 }
+
+.saved-movies {
+  margin: 0 10px;
+  padding: 5px 10px;
+  background: black;
+  color: white;
+  border: black 1px solid;
+}
+
+.saved-movies:hover {
+  color: black;
+  background: white;
+}

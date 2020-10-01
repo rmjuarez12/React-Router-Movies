@@ -8,7 +8,8 @@ export default function SavedList(props) {
     <div className="saved-list">
       <h3>Saved Movies:</h3>
 
-      <nav className="saved-movies">
+      {props.list < 1 && "Nothing Saved"}
+      <nav className="saved-movies-list">
         {props.list.map((movie, index) => (
           <NavLink to={`/movies/${movie.id}`} key={index} className="saved-movies">
             {movie.title}
