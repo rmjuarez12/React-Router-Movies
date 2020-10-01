@@ -1,7 +1,7 @@
 import React from "react";
 
 // Import Dependencies
-import { useParams, useRouteMatch, Route, NavLink } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 export default function MovieCard(props) {
   const { title, director, metascore, stars } = props.movie;

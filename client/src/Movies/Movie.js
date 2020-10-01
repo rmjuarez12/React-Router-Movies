@@ -9,12 +9,12 @@ import { useParams } from "react-router-dom";
 
 export default function Movie(props) {
   const [movie, setMovie] = useState();
+  const [isSaved, setIsSaved] = useState(false);
+
+  const { saved } = props;
 
   // Get the parameters passed by React Router
   const { id } = useParams();
-
-  // let id = 1;
-  // Change ^^^ that line and use a hook to obtain the :id parameter from the URL
 
   useEffect(() => {
     axios
@@ -22,6 +22,17 @@ export default function Movie(props) {
       .then((response) => {
         // Study this response with a breakpoint or log statements
         console.log("Single Movie", response);
+
+        setIsSaved(false);
+
+        // Check if this movie was saved before. If so, set the isSaved to true
+        if (saved.length > 0) {
+          saved.forEach((item) => {
+            if (item.id === response.data.id) {
+              setIsSaved(true);
+            }
+          });
+        }
 
         // and set the response data as the 'movie' slice of state
         setMovie(response.data);
@@ -31,21 +42,29 @@ export default function Movie(props) {
       });
     // This effect should run every time time
     // the `id` changes... How could we do this?
-  }, [id]);
+  }, [id, saved]);
 
   // Uncomment this only when you have moved on to the stretch goals
-  // const saveMovie = evt => { }
+  const saveMovie = (evt) => {
+    if (isSaved) {
+      props.removeFromSavedList(movie.id);
+    } else {
+      props.addToSavedList(movie.id);
+    }
+
+    setIsSaved(!isSaved);
+  };
 
   if (!movie) {
     return <div>Loading movie information...</div>;
   }
 
-  const { title, director, metascore, stars } = movie;
-
   return (
     <div className="save-wrapper">
       <MovieCard movie={movie} />
-      <div className="save-button">Save</div>
+      <button className="save-button" onClick={saveMovie}>
+        {isSaved ? "Remove from Saved" : "Add to Saved"}
+      </button>
     </div>
   );
 }
